@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hale Skin Disease Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+        input[type="file"] {
+            border: 2px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+        }
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        li:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        strong {
+            font-weight: bold;
+        }
+        .disease-info {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hale Skin Disease Prediction</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".jpg, .jpeg, .png, .gif" required>
+        <button type="submit">Upload & Predict</button>
+    </form>
+
+    {% if predictions %}
+    <h2>Prediction Results:</h2>
+    <ul>
+        {% for prediction in predictions %}
+        <li>
+            <strong>Name:</strong> {{ prediction.name }} (ICD: {{ prediction.icd }})<br>
+            <strong>Confidence:</strong> {{ prediction.confidence }}<br>
+            <strong>Read More:</strong> <a href="{{ prediction.readMoreUrl }}" target="_blank">{{ prediction.readMoreUrl }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div class="disease-info">
+        <!-- Disease information will be displayed here -->
+        {% if disease_info %}
+        <h2>Disease Information:</h2>
+        <p>{{ disease_info }}</p>
+        {% endif %}
+    </div>
+
+    {% if error %}
+    <p>Error: {{ error }}</p>
+    {% endif %}
+</body>
+</html>
