@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <!-- ... (your existing head content) ... -->
+    <style>
+   body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 2em; /* Increase font size */
+        }
+        form {
+            text-align: center;
+            margin-top: 20px; /* Adjusted margin */
+        }
+        input[type="file"] {
+            border: 2px solid #ccc;
+            padding: 10px;
+            background-color: #fff;
+            font-size: 1em; /* Adjusted font size */
+        }
+        button[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 1em; /* Adjusted font size */
+        }
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.5em; /* Increase font size */
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+        }
+        li {
+            background-color: #fff;
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 1.2em; /* Adjusted font size */
+        }
+        li:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        strong {
+            font-weight: bold;
+        }
+        img {
+            max-width: 40%; /* Ensure the image does not exceed its container */
+            height: auto; /* Maintain the aspect ratio of the image */
+            margin-top: 10px; /* Add margin for separation */
+        }
+    </style>
+</head>
+<body>
+    <h1>Run Skin Diagnosis</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".jpg, .jpeg, .png, .gif" required>
+        <button type="submit">Upload & Predict</button>
+    </form>
+
+    {% if predictions %}
+    <h2>Prediction Results:</h2>
+    <ul>
+        {% for prediction in predictions %}
+        <li>
+            <strong>Name:</strong> {{ prediction.name }} (ICD: {{ prediction.icd }})<br>
+            <strong>Confidence:</strong> {{ prediction.confidence }}<br>
+            <br>
+            <strong>Disease Information:</strong> {{ prediction.disease_info }}<br>
+            <br>
+            <strong>Symptoms:</strong> {{ prediction.symptoms }}<br>
+             <strong>Treatment:</strong> {{ prediction.treatment }}<br><!-- New line for displaying symptoms -->
+            <!-- You can customize the styling or format of the disease information and symptoms here -->
+            <!-- Display the image associated with the prediction -->
+          <img src="{{ url_for('static', filename='images/' + prediction.image_filename) }}" alt="Skin Disease Image">
+
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if error %}
+    <p>Error: {{ error }}</p>
+    {% endif %}
+</body>
+</html>
